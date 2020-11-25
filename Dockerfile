@@ -20,7 +20,7 @@ RUN set -x && \
     # Dependencies for logging
     KEPT_PACKAGES+=(gawk) && \
     # Dependencies for healthcheck
-    KEPT_PACKAGES+=(netstat) && \
+    KEPT_PACKAGES+=(net-tools) && \
     # Install packages
     apt-get update && \
     apt-get install -y --no-install-recommends \
