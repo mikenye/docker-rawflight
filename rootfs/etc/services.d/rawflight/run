@@ -2,6 +2,6 @@
 # shellcheck shell=bash
 
 socat -d -d -u TCP:"$BEASTHOST":"$BEASTPORT" TCP:"$RAWFLIGHTHOST":"$RAWFLIGHTPORT" \
-  2>&1 | stdbuf -o0 awk '{print "[rawflight.eu] " strftime("%Y/%m/%d %H:%M:%S", systime()) " " $0}'
+  2>&1 | stdbuf -o0 awk '{print "[rawflight] " strftime("%Y/%m/%d %H:%M:%S", systime()) " " $0}'
 
 sleep 3
