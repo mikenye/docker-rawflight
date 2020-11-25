@@ -35,3 +35,5 @@ RUN set -x && \
     find /var/log -type f -iname "*log" -exec truncate --size 0 {} \;
 
 COPY rootfs/ /
+
+ENTRYPOINT [ "/init" ]
