@@ -2,8 +2,12 @@
 # shellcheck shell=bash
 
 # First socat take beast data and sends to standard output
-# pv (pipe viewer) shows stats about the transfer every 900 seconds
+# pv (pipe viewer) shows stats about the transfer every 300 seconds
 # Second socat reads from standard input and sends to rawflight
+# Curly braces are so we can capture entire stderr outputs
+# `stdbuf -oL tr '\r' '\n'` makes pv output one stat per line (instead of updating in place)
+# `stdbuf -o0 sed --unbuffered '/^$/d'` removes blank lines from output
+# `stdbuf -o0 awk '{print....` prepends the `[rawflight] <timestamp>` to each line
 
 set -o pipefail
 
@@ -15,8 +19,9 @@ echo "Feeding data from $BEASTHOST:$BEASTPORT to $RAWFLIGHTHOST:$RAWFLIGHTPORT" 
     socat -d -u - TCP:"$RAWFLIGHTHOST":"$RAWFLIGHTPORT"; }; \
   } \
  2>&1 | stdbuf -oL tr '\r' '\n' | \
+ stdbuf -o0 sed --unbuffered '/^$/d' | \
  stdbuf -o0 awk '{print "[rawflight] " strftime("%Y/%m/%d %H:%M:%S", systime()) " " $0}'
- 
+
 echo "Disconnected" | \
   stdbuf -o0 awk '{print "[rawflight] " strftime("%Y/%m/%d %H:%M:%S", systime()) " " $0}'
 
