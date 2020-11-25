@@ -7,7 +7,8 @@
 
 set -o pipefail
 
-echo "Feeding data from $BEASTHOST:$BEASTPORT to $RAWFLIGHTHOST:$RAWFLIGHTPORT"
+echo "Feeding data from $BEASTHOST:$BEASTPORT to $RAWFLIGHTHOST:$RAWFLIGHTPORT" | \
+  stdbuf -o0 awk '{print "[rawflight] " strftime("%Y/%m/%d %H:%M:%S", systime()) " " $0}'
 
 { socat -d -u TCP:"$BEASTHOST":"$BEASTPORT" - | \
   { pv -t -r -b -f -N statistics -c --interval 300 | \
@@ -16,6 +17,7 @@ echo "Feeding data from $BEASTHOST:$BEASTPORT to $RAWFLIGHTHOST:$RAWFLIGHTPORT"
  2>&1 | stdbuf -oL tr '\r' '\n' | \
  stdbuf -o0 awk '{print "[rawflight] " strftime("%Y/%m/%d %H:%M:%S", systime()) " " $0}'
  
-echo "Disconnected"
+echo "Disconnected" | \
+  stdbuf -o0 awk '{print "[rawflight] " strftime("%Y/%m/%d %H:%M:%S", systime()) " " $0}'
 
 sleep 3
