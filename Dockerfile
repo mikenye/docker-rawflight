@@ -8,6 +8,7 @@ RUN set -x && \
     TEMP_PACKAGES=() && \
     KEPT_PACKAGES=() && \
     # Dependencies for feeding rawflight
+    KEPT_PACKAGES+=(pv) && \
     KEPT_PACKAGES+=(socat) && \
     # Dependencies for installing s6-overlay
     TEMP_PACKAGES+=(ca-certificates) && \
