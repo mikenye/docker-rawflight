@@ -3,6 +3,8 @@ FROM debian:stable-slim
 ENV BEASTPORT=30005 \
     RAWFLIGHTHOST=rawflight.eu \
     RAWFLIGHTPORT=48581
+    
+SHELL ["/bin/bash", "-o", "pipefail", "-c"]
 
 RUN set -x && \
     TEMP_PACKAGES=() && \
