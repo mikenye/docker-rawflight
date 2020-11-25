@@ -17,6 +17,8 @@ RUN set -x && \
     TEMP_PACKAGES+=(curl) && \
     TEMP_PACKAGES+=(file) && \
     TEMP_PACKAGES+=(gnupg) && \
+    # logging
+    KEPT_PACKAGES+=(gawk) && \
     # Install packages
     apt-get update && \
     apt-get install -y --no-install-recommends \
