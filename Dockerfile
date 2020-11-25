@@ -1,5 +1,9 @@
 FROM debian:stable-slim
 
+ENV BEASTPORT=30005 \
+    RAWFLIGHTHOST=rawflight.eu \
+    RAWFLIGHTPORT=48581
+
 RUN set -x && \
     TEMP_PACKAGES=() && \
     KEPT_PACKAGES=() && \
@@ -24,4 +28,5 @@ RUN set -x && \
     apt-get clean -y && \
     rm -rf /src /tmp/* /var/lib/apt/lists/* && \
     find /var/log -type f -iname "*log" -exec truncate --size 0 {} \;
-        
+
+COPY rootfs/ /
