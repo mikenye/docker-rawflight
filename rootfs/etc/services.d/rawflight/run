@@ -7,7 +7,6 @@
 
 socat -d -d -u TCP:"$BEASTHOST":"$BEASTPORT" - | \
 pv -t -r -b -f -N statistics -c --interval 900 | \
-socat -d -d -u - TCP:"$RAWFLIGHTHOST":"$RAWFLIGHTPORT" \
-  2>&1 | stdbuf -o0 awk '{print "[rawflight] " strftime("%Y/%m/%d %H:%M:%S", systime()) " " $0}'
+socat -d -d -u - TCP:"$RAWFLIGHTHOST":"$RAWFLIGHTPORT"
 
 sleep 3
