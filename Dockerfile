@@ -29,6 +29,8 @@ RUN set -x && \
         && \
     # Deploy s6-overlay
     curl -s https://raw.githubusercontent.com/mikenye/deploy-s6-overlay/master/deploy-s6-overlay.sh | sh && \
+    # Set healthcheck script permissions
+    chmod a+x /scripts/healthcheck.sh && \
     # Clean up
     apt-get remove -y ${TEMP_PACKAGES[@]} && \
     apt-get autoremove -y && \
@@ -39,3 +41,6 @@ RUN set -x && \
 COPY rootfs/ /
 
 ENTRYPOINT [ "/init" ]
+
+# Add healthcheck
+HEALTHCHECK --start-period=3600s --interval=600s CMD /scripts/healthcheck.sh
