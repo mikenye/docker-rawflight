@@ -5,8 +5,17 @@
 # pv (pipe viewer) shows stats about the transfer every 900 seconds
 # Second socat reads from standard input and sends to rawflight
 
-socat -d -d -u TCP:"$BEASTHOST":"$BEASTPORT" - | \
-pv -t -r -b -f -N statistics -c --interval 900 | \
-socat -d -d -u - TCP:"$RAWFLIGHTHOST":"$RAWFLIGHTPORT"
+set -o pipefail
+
+echo "Feeding data from $BEASTHOST:$BEASTPORT to $RAWFLIGHTHOST:$RAWFLIGHTPORT"
+
+{ socat -d -u TCP:"$BEASTHOST":"$BEASTPORT" - | \
+  { pv -t -r -b -f -N statistics -c --interval 300 | \
+    socat -d -u - TCP:"$RAWFLIGHTHOST":"$RAWFLIGHTPORT"; }; \
+  } \
+ 2>&1 | stdbuf -oL tr '\r' '\n' | \
+ stdbuf -o0 awk '{print "[rawflight] " strftime("%Y/%m/%d %H:%M:%S", systime()) " " $0}'
+ 
+echo "Disconnected"
 
 sleep 3
