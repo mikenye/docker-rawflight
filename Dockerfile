@@ -17,8 +17,10 @@ RUN set -x && \
     TEMP_PACKAGES+=(curl) && \
     TEMP_PACKAGES+=(file) && \
     TEMP_PACKAGES+=(gnupg) && \
-    # logging
+    # Dependencies for logging
     KEPT_PACKAGES+=(gawk) && \
+    # Dependencies for healthcheck
+    KEPT_PACKAGES+=(netstat) && \
     # Install packages
     apt-get update && \
     apt-get install -y --no-install-recommends \
