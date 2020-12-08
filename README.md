@@ -33,7 +33,7 @@ services:
   rawflight:
     image: mikenye/rawflight
     tty: true
-    container_name: adsbx
+    container_name: rawflight
     restart: always
     environment:
       - BEASTHOST=readsb
