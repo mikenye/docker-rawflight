@@ -1,5 +1,6 @@
 #!/usr/bin/with-contenv bash
 # shellcheck shell=bash
+# shellcheck disable=SC2016
 
 # First socat take beast data and sends to standard output
 # pv (pipe viewer) shows stats about the transfer every 300 seconds
