@@ -6,6 +6,8 @@ ENV BEASTPORT=30005 \
     
 SHELL ["/bin/bash", "-o", "pipefail", "-c"]
 
+COPY rootfs/ /
+
 RUN set -x && \
     TEMP_PACKAGES=() && \
     KEPT_PACKAGES=() && \
@@ -35,8 +37,6 @@ RUN set -x && \
     apt-get clean -y && \
     rm -rf /src /tmp/* /var/lib/apt/lists/* && \
     find /var/log -type f -iname "*log" -exec truncate --size 0 {} \;
-
-COPY rootfs/ /
 
 ENTRYPOINT [ "/init" ]
 
